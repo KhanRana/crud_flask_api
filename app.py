@@ -4,20 +4,20 @@ from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
 
-items = []  # store items in memory list instead a DB
+products = []  # store products in memory list instead a DB
 
 
 # render the home page
 @app.route('/')
 def index():
-    return render_template("index.html", items=items)
+    return render_template("index.html", products=products)
 
 
 # add item to the list
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form["name"]
-    items.append(name)
+    products.append(name)
     return redirect('/')
 
 
@@ -26,9 +26,9 @@ def create():
 def update():
     old_name = request.form["old_name"]
     new_name = request.form["new_name"]
-    if old_name in items:
-        index = items.index(old_name)
-        items[index] = new_name
+    if old_name in products:
+        index = products.index(old_name)
+        products[index] = new_name
         return redirect('/')
 
 
@@ -36,8 +36,8 @@ def update():
 @app.route("/delete", methods=["POST"])
 def delete():
     name = request.form["name"]
-    if name in items:
-        items.remove(name)
+    if name in products:
+        products.remove(name)
     return redirect('/')
 
 
