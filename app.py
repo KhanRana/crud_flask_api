@@ -32,6 +32,13 @@ def update():
         return redirect('/')
 
 
+# delete an item
+@app.route("/delete", methods=["POST"])
+def delete():
+    name = request.form["name"]
+    if name in items:
+        items.remove(name)
+    return redirect('/')
 
 
 if __name__ == "__main__":
