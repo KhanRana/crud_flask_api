@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 
 # create a flask app
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 
 products = []  # store products in memory list instead a DB
@@ -42,4 +42,4 @@ def delete():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
