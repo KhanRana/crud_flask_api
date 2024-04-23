@@ -1,12 +1,19 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect
 
 # create a flask app
 app =  Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return "Hello World!"
 
+items = [] # store items in memory list instead a DB
+
+
+# render the home page
+@app.route('/')
+def index():
+    return render_template("index.html", items=items )
+
+
+# 
 
 if __name__ == "__main__":
     app.run()
