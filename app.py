@@ -12,7 +12,7 @@ items = []  # store items in memory list instead a DB
 def index():
     return render_template("index.html", items=items)
 
-#
+# add item to the list
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form["name"]
