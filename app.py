@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
-
+from pymongo import MongoClient
 # create a flask app
 app = Flask(__name__, template_folder="templates")
+app.config.from_pyfile("settings.py")
 
 
 products = []  # store products in memory list instead a DB
