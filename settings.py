@@ -1,2 +1,2 @@
 from os import environ
-MONGo_URI=environ.get("MONGO_URI")
+MONGO_URI=environ.get("MONGO_URI")
