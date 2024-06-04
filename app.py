@@ -51,7 +51,6 @@ def update():
     # update the document
     if products.find_one(document_to_update) is None:
         print("No document found with that name")
-        flash("No document found with that name", "error")
     else:
         products.update_one(document_to_update, update_document)
     return redirect('/')
