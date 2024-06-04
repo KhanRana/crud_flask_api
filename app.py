@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from pymongo import MongoClient
 
 # create a flask app
 app = Flask(__name__, template_folder="templates")
 app.config.from_pyfile("settings.py")
+
+
 
 MONGO_URI = app.config.get("MONGO_URI")
 
@@ -15,14 +17,19 @@ try:
     print("Connected to the database!")
 except ConnectionError as exc:
     raise RuntimeError('Failed to open database') from exc
-# products = []  # store products in memory list instead a DB
 
+# products = []  # store products in memory list instead a DB
 
 # render the home page
 @app.route('/')
 def index():
     all_products = products.find() 
     return render_template("index.html", products=all_products)
+
+@app.route("/info")
+def info():
+    app.logger.info("Hello, World!")
+    return "Hello, World! (info)"
 
 
 # add item to the list
@@ -39,10 +46,15 @@ def create():
 def update():
     old_name = request.form["old_name"]
     new_name = request.form["new_name"]
-    if old_name in products:
-        index = products.index(old_name)
-        products[index] = new_name
-        return redirect('/')
+    document_to_update = {'name': old_name}
+    update_document = {'$set': {'name': new_name}}
+    # update the document
+    if products.find_one(document_to_update) is None:
+        print("No document found with that name")
+        flash("No document found with that name", "error")
+    else:
+        products.update_one(document_to_update, update_document)
+    return redirect('/')
 
 
 # delete an item
