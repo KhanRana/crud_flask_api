@@ -8,6 +8,7 @@ app.config.from_pyfile("settings.py")
 
 
 MONGO_URI = app.config.get("MONGO_URI")
+SECRET_KEY = app.config.get("SECRET_KEY")
 
 # create mongo client on startup
 try:
@@ -26,17 +27,12 @@ def index():
     all_products = products.find() 
     return render_template("index.html", products=all_products)
 
-@app.route("/info")
-def info():
-    app.logger.info("Hello, World!")
-    return "Hello, World! (info)"
-
-
 # add item to the list
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form["name"]
     products.insert_one({'name': name})
+    flash("Product added successfully!", "success")
 
     return redirect('/')
 
@@ -51,8 +47,11 @@ def update():
     # update the document
     if products.find_one(document_to_update) is None:
         print("No document found with that name")
+        flash("No document found with that name", "error")
     else:
         products.update_one(document_to_update, update_document)
+        flash("Product updated successfully!", "success")
+    
     return redirect('/')
 
 
@@ -60,10 +59,17 @@ def update():
 @app.route("/delete", methods=["POST"])
 def delete():
     name = request.form["name"]
-    if name in products:
-        products.remove(name)
+    try:
+        products.delete_one({'name': name})
+        print("Deleted document with name:", name)
+        flash("Product deleted successfully!", "success")
+    except Exception as e:
+        print("Error deleting document:", e)
+        flash("Error deleting document", "error")
     return redirect('/')
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+    app.secret_key = SECRET_KEY
+    client.close()
