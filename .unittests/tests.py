@@ -36,7 +36,7 @@ def test_create ():
 # Test the /update endpoint
 def test_update ():
     # act
-    data = {"old_name": "Test",
+    data = {"old_name": "Evaline",
             "new_name": "Test Updated"}
     # arrange
     response = requests.post("http://127.0.0.1:5000/update", data=data)
@@ -50,7 +50,7 @@ def test_delete ():
     # act
     data = {"name": "Test"}
     # arrange
-    response = requests.delete("http://127.0.0.1:5000/update", data=data)
+    response = requests.post("http://127.0.0.1:5000/delete", data=data)
     # assert
     assert response.status_code == 200
     print ("Good, the /delete endpoint is working")
