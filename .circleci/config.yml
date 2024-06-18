@@ -39,6 +39,7 @@ jobs:
       - run:
           command: | 
             pytest --version
+            pytest
           name: Run tests 
 
 
