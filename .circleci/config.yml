@@ -38,8 +38,8 @@ jobs:
           pypi-cache: false
       - run:
           command: | 
-            pytest tests/test_crud_tests.py
-          name: Test
+            pytest 
+          name: Run tests 
 
 
 # Orchestrate jobs using workflows
