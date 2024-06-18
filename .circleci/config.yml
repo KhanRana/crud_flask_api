@@ -38,7 +38,8 @@ jobs:
           pypi-cache: false
       - run:
           command: |
-            pytest .unittests/test_crud_tests.py
+            cd .unittests 
+            pytest test_crud_tests.py
           name: Test
 
 
