@@ -31,9 +31,12 @@ def index():
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form["name"]
-    products.insert_one({'name': name})
-    flash("Product added successfully!", "success")
-
+    if products.insert_one({'name': name}):
+        print("Inserted document with name:", name)
+        # products.append(name)  # add to in-memory list
+        flash("Product added successfully!", "success")  # show success message
+    else:
+        flash("Error adding product", "error")  # show error message
     return redirect('/')
 
 
