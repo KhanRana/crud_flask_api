@@ -30,11 +30,15 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
           # app-dir: ~/project/package-directory/  # If your requirements.txt isn't in the root directory.
-          pip-dependency-file: pip install requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
+          pip-dependency-file: requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
           name: Run 
           # This assumes pytest is installed via the install-package step above
-          command: pytest .unittests/tests.py
+          command: 
+            python -m venv .venv
+            source .venv/bin/activate
+            pip install requirements.txt
+
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
