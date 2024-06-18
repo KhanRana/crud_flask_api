@@ -38,7 +38,7 @@ jobs:
           pypi-cache: false
       - run:
           command: | 
-            pytest ./tests/test_crud_tests.py
+            pytest --version
           name: Run tests 
 
 
