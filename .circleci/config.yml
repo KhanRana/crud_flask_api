@@ -38,7 +38,7 @@ jobs:
           pypi-cache: false
       - run:
           command: |
-            pwd
+            flask run --host=0.0.0.0
             pytest --version
             pytest
           name: Run tests
