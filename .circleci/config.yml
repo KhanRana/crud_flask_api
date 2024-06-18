@@ -38,7 +38,7 @@ jobs:
           pypi-cache: false
       - run:
           name: Run Server
-          # background: true
+          background: true
           command: |
             flask run 
       - run:
