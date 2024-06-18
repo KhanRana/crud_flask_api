@@ -48,7 +48,7 @@ def test_update ():
 # Test the /delete endpoint
 def test_delete ():
     # act
-    data = {"name": "Test"}
+    data = {"name": "Test Updated"}
     # arrange
     response = requests.post("http://127.0.0.1:5000/delete", data=data)
     # assert
