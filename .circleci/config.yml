@@ -40,13 +40,12 @@ jobs:
           name: Run Server
           background: true
           command: |
-            flask run --host=0.0.0.0
+            flask run 
       - run:
           name: Run Tests
           shell: /bin/bash
           command: |
             cd tests
-            pytest --version
             pytest      
       - persist_to_workspace:
           root: ~/project
