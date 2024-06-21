@@ -63,12 +63,12 @@ jobs:
       - aws-ecr/build_and_push_image:
           auth:
             - aws-cli/setup:
-                aws-access-key-id: ${AWS_ACCESS_KEY_ID}
-                aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-          account_id: ${AWS_ACCOUNT_ID}      
+                aws-access-key-id: AWS_ACCESS_KEY_ID
+                aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          account_id: AWS_ACCOUNT_ID      
           dockerfile: Dockerfile
           path: .
-          repo: ${AWS_RESOURCE_NAME_PREFIX}
+          repo: AWS_RESOURCE_NAME_PREFIX
           tag: ${CIRCLE_SHA1}   
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
