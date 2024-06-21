@@ -10,7 +10,8 @@ version: 2.1
 orbs:
   # See the Python orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@2.1.1
-
+  aws-cli: circleci/aws-cli@4.1.3
+  aws-ecr: circleci/aws-ecr@9.1.0 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -51,6 +52,24 @@ jobs:
           root: ~/project
           paths:
                 - .
+  build-and-deploy-ecr:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+          version: 20.10.8
+      - aws-ecr/build_and_push_image:
+          auth:
+            - aws-cli/setup:
+                aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+                aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          account_id: ${AWS_ACCOUNT_ID}      
+          dockerfile: Dockerfile
+          path: .
+          repo: ${AWS_RESOURCE_NAME_PREFIX}
+          tag: ${CIRCLE_SHA1}   
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
@@ -58,3 +77,9 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - build-and-deploy-ecr:
+          requires:
+            - build-and-test
+
+
+                
