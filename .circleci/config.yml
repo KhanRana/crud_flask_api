@@ -47,9 +47,9 @@ jobs:
           command: |
             cd tests
             pytest 
-      - store_artifacts:
+      - store_test_results:
           path: test-reports
-          destination: reports     
+               
       - persist_to_workspace:
           root: ~/project
           paths:
