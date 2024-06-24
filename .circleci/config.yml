@@ -49,7 +49,7 @@ jobs:
             pytest 
       - store_test_results:
           path: test-reports
-               
+
       - persist_to_workspace:
           root: ~/project
           paths:
@@ -67,7 +67,7 @@ workflows:
           create-repo: true
           dockerfile: Dockerfile
           path: .
-          repo: fla
+          repo: flask-crud-api
           tag: "$CIRCLE_SHA1"
 
 
