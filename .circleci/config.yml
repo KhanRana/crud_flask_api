@@ -46,7 +46,10 @@ jobs:
           shell: /bin/bash
           command: |
             cd tests
-            pytest      
+            pytest 
+      - store_artifacts:
+          path: test-reports
+          destination: reports     
       - persist_to_workspace:
           root: ~/project
           paths:
