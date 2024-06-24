@@ -50,7 +50,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-                - .  
+            - .  
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
@@ -58,13 +58,13 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test     
-  deploy-to-ecr:
-    jobs:
       - aws-ecr/build-and-push-image:
+          requires:
+            - build-and-test
           create-repo: true
           dockerfile: Dockerfile
           path: .
-          repo: flask-crud-api
+          repo: fla
           tag: "$CIRCLE_SHA1"
 
 
