@@ -40,7 +40,7 @@ jobs:
           name: Run Server
           background: true
           command: |
-            flask run 
+            python app.py 
       - run:
           name: Run Tests
           shell: /bin/bash
