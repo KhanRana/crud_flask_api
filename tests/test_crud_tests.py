@@ -1,7 +1,7 @@
 import requests
 import json
 
-host = "http://127.0.0.1:5000"
+host = "http://127.0.0.1:5500"
 
 # Test that always pass
 def test_always_passes():
