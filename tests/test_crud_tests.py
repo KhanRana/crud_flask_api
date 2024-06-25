@@ -7,6 +7,11 @@ def test_always_passes():
     assert True
     print("Good, it always passes")
 
+# Check the status
+def test_status_code():
+    response = requests.get("http://127.0.0.1:5000/status")
+    assert response.status_code == 200
+    print("Good, the status endpoint is working")
 
 # Get all products
 def test_list_of_products():

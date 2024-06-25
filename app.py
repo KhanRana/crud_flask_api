@@ -21,6 +21,10 @@ except ConnectionError as exc:
 
 # products = []  # store products in memory list instead a DB
 
+@app.route('/status')
+def status():
+    return "The server is working fine!"
+
 # render the home page
 @app.route('/')
 def index():
