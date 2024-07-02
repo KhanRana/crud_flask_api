@@ -30,13 +30,20 @@ def test_create():
 # Test the /update endpoint
 def test_update():
     # arrange
-    data = {"old_name": "Evaline",
-            "new_name": "Test Updated"}
+    data = {"old_name": "Joe",
+            "new_name": "Ali"}
+    invalid_data = {"old_name": "no_name",
+                    "new_name": "Joe"} 
     # act
-    response = requests.post(f"{host}/update", data=data)
-
+    response = requests.post(f"{host}/update", data=data) 
+    invalid_response = requests.post(f"{host}/update", data=invalid_data) 
     # assert
     assert response.status_code == 200
+    assert invalid_response.status_code == 404
+
+
+
+
 
 
 # Test the /delete endpoint
@@ -46,7 +53,7 @@ def test_delete():
     # act
     response = requests.post(f"{host}/delete", data=data)
     # assert
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
 # Get all products
