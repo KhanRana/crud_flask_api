@@ -1,10 +1,15 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import (Flask, render_template, request, 
+                   redirect, flash, jsonify, abort)
 from pymongo import MongoClient
 
 # create a flask app
 app = Flask(__name__, template_folder="templates")
 app.config.from_pyfile("settings.py")
 
+
+@app.errorhandler(404)
+def resource_not_found(e):
+    return jsonify(error=str(e)), 404
 
 
 MONGO_URI = app.config.get("MONGO_URI")
@@ -54,8 +59,8 @@ def update():
     # update the document
     if products.find_one(document_to_update) is None:
         print("No document found with that name")
-        flash("No document found with that name", "error")
-    else:
+        abort(404, description="No document found with that name")
+    else:  
         products.update_one(document_to_update, update_document)
         flash("Product updated successfully!", "success")
     
