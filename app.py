@@ -71,17 +71,15 @@ def update():
 @app.route("/delete", methods=["POST"])
 def delete():
     name = request.form["name"]
-    try:
-        if products.find_one({'name': name}) is None:
-            print("No document found with that name")
-            flash("No document found with that name", "error")
-        else:
-            products.delete_one({'name': name})
-            print("Deleted document with name:", name)
-            flash("Product deleted successfully!", "success")
-    except Exception as e:
-        print("Error deleting document:", e)
-        flash("Error deleting document", "error")
+    
+    if products.find_one({'name': name}) is None:
+        print("No document found with that name")
+        abort(404, description="No document found with that name")
+    else:
+        products.delete_one({'name': name})
+        print("Deleted document with name:", name)
+        flash("Product deleted successfully!", "success")
+
     return redirect('/')
 
 
