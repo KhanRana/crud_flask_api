@@ -7,6 +7,7 @@ app = Flask(__name__, template_folder="templates")
 app.config.from_pyfile("settings.py")
 
 
+# 404 Error handler, returns a json response 
 @app.errorhandler(404)
 def resource_not_found(e):
     return jsonify(error=str(e)), 404
