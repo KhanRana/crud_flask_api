@@ -49,7 +49,7 @@ def test_delete():
     invalid_data = {"name": "no_name"}
     # act
     response = requests.post(f"{host}/delete", data=data)
-    invalid_response = requests.post(f"{host}/update", data=invalid_data)
+    invalid_response = requests.post(f"{host}/delete", data=invalid_data)
 
     # assert
     assert response.status_code == 200
