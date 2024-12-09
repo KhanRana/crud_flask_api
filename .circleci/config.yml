@@ -34,7 +34,7 @@ jobs:
       - run: docker build -t flask:latest .
       - run:
           name: Run Flask app in Docker container
-          command: docker run --name flask -p 5500:5500 flask:latest
+          command: docker run -d --name flask -p 5500:5500 flask:latest
           background: true
       
       - run:
