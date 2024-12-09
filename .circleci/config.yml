@@ -34,20 +34,18 @@ jobs:
       - run: docker build -t flask:latest .
       - run:
           name: Run Flask app in Docker container
-          command: docker run -d --name flasked -p 5500:5500 flask:latest      
-      - run:
-          name: App Server tests
-          # change directory to the tests directory
-          command: |
-            cd tests
-            python -m pytest test_app.py
+          command: | 
+            docker run -d --name flask -p 5500:5500 flask:latest
+            docker stop flask
+            docker rm flask
 
 workflows:
-  build:
+  build_deploy:
     jobs:
       - build_and_test_app
-      - build_docker_image
-  
+      - build_docker_image:
+          requires:
+            - build_and_test_app
 
 
 
