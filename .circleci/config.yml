@@ -64,7 +64,7 @@ workflows:
           create-repo: true
           dockerfile: Dockerfile
           path: .
-          repo: flask-crud-api
+          repo: khanrana/flask
           tag: "$CIRCLE_SHA1"
 
 
