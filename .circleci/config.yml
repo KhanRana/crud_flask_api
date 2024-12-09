@@ -40,12 +40,11 @@ jobs:
           name: Run Server
           background: true
           command: |
-            python app.py
+            python3 app.py
       - run:
           name: Run Tests
           shell: /bin/bash
           command: |
-            cd tests
             pytest 
       - persist_to_workspace:
           root: ~/project
