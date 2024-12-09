@@ -34,6 +34,12 @@ jobs:
       - run: docker build -t flask:latest .
       - run: docker run -d -p 5500:5500 flask:latest
       - run: python -m pytest tests/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 'tests'
+      - attach_workspace:
+          at: /tmp/workspace
 workflows:
   build:
     jobs:
