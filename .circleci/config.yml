@@ -36,11 +36,15 @@ jobs:
           name: Run Flask app in Docker container
           command: docker run -d --name flasked -p 5500:5500 flask:latest      
       - run:
-          name: Run tests on Docker container
-          command: |
-            docker exec flasked python -m pytest tests/
-            docker stop flasked
-            docker rm flasked
+          name: App Server tests
+          command: python -m pytest tests/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 'tests'
+      - attach_workspace:
+          at: /tmp/workspace
+
  
   
 workflows:
