@@ -34,15 +34,15 @@ jobs:
       - run: docker build -t flask:latest .
       - run:
           name: Run Flask app in Docker container
-          command: docker run -d --name flask -p 5500:5500 flask:latest
+          command: docker run -d --name flasked -p 5500:5500 flask:latest
           background: true
       
       - run:
           name: Run tests on Docker container
           command: |
-            docker exec flask python -m pytest tests/
-            docker stop flask
-            docker rm flask
+            docker exec flasked python -m pytest tests/
+            docker stop flasked
+            docker rm flasked
  
   
 workflows:
