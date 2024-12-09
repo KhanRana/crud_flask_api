@@ -3,7 +3,7 @@ orbs:
   python: circleci/python@2.0.3
 
 jobs:
-  build_and_test:
+  build_and_test_app:
     executor: python/default
     steps:
       - checkout
@@ -22,10 +22,18 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
 
+  build_docker_image:
+    executor: python/default
+    steps:
+      - checkout
+      - run: docker build -t flask:latest .
+      - run: docker run -d -p 5500:5500 flask:latest
+      - run: python -m pytest tests/
 workflows:
   build:
     jobs:
-      - build_and_test
+      - build_and_test_app
+      - build_docker_image
 
 
 
