@@ -23,7 +23,8 @@ jobs:
           at: /tmp/workspace
 
   build_docker_image:
-    executor: python/default
+    docker: 
+      - image: cimg/base:2024.02
     steps:
       - checkout
       - run: docker build -t flask:latest .
