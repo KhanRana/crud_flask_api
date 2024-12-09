@@ -9,7 +9,7 @@ version: 2.1
 # See: https://circleci.com/docs/orb-intro/
 orbs:
   # See the Python orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
-  python: circleci/python@2.1.1
+  python: circleci/python@3.0.0
   aws-ecr: circleci/aws-ecr@8.1.3 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
@@ -20,7 +20,7 @@ jobs:
     docker:
       # Specify the version you desire here
       # See:https://circleci.com/developer/images/image/cimg/python
-      - image: cimg/python:3.12
+      - image: cimg/python:3.9
 
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
@@ -40,16 +40,16 @@ jobs:
           name: Run Server
           background: true
           command: |
-            python3 app.py
+            python app.py
       - run:
           name: Run Tests
           shell: /bin/bash
           command: |
             pytest 
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-                - .  
+      # - persist_to_workspace:
+      #     root: ~/project
+      #     paths:
+      #           - .  
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
