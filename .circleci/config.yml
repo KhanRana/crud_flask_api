@@ -37,21 +37,17 @@ jobs:
           command: docker run -d --name flasked -p 5500:5500 flask:latest      
       - run:
           name: App Server tests
-          command: python -m pytest tests/
-      - persist_to_workspace:
-          root: .
-          paths:
-            - 'tests'
-      - attach_workspace:
-          at: /tmp/workspace
+          # change directory to the tests directory
+          command: |
+            cd tests
+            python -m pytest test_app.py
 
- 
-  
 workflows:
   build:
     jobs:
       - build_and_test_app
       - build_docker_image
+  
 
 
 
