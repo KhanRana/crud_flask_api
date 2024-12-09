@@ -27,6 +27,10 @@ jobs:
       - image: cimg/base:2024.02
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+          version: 20.10.24
+        
       - run: docker build -t flask:latest .
       - run: docker run -d -p 5500:5500 flask:latest
       - run: python -m pytest tests/
