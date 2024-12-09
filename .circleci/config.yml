@@ -32,11 +32,15 @@ jobs:
           version: 20.10.24
         
       - run: docker build -t flask:latest .
-      - run: docker run -d --name flask -p 5500:5500 flask:latest
+      - run:
+          name: Run Flask app in Docker container
+          command: docker run --name flask -p 5500:5500 flask:latest
+          background: true
+      
       - run:
           name: Run tests on Docker container
           command: |
-            docker exec flask python -m pytest tests/
+            docker exec flask pytest
  
   
 workflows:
