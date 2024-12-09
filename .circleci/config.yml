@@ -34,9 +34,7 @@ jobs:
       - run: docker build -t flask:latest .
       - run:
           name: Run Flask app in Docker container
-          command: docker run -d --name flasked -p 5500:5500 flask:latest
-          background: true
-      
+          command: docker run -d --name flasked -p 5500:5500 flask:latest      
       - run:
           name: Run tests on Docker container
           command: |
