@@ -18,7 +18,7 @@ jobs:
         # run and save the tests
       - run:
           name: Create directory for tests
-          command: mkdir tests
+          command: mkdir results
 
       - run: python -m pytest tests/
 
@@ -28,7 +28,7 @@ jobs:
             - 'tests'
     
       - store_test_results:
-          path: tests
+          path: results
 
   build_docker_image:
     docker: 
