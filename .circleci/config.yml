@@ -40,16 +40,16 @@ jobs:
           docker_layer_caching: true
           version: 20.10.24
         
-      - run: docker build -t khanrana/flask:"$CIRCLE_SHA1:0:7" .
+      - run: docker build -t khanrana/flask:${CIRCLE_SHA1} .
       - run:
           name: Run Flask app in Docker container
           command: | 
-            docker run -d --name flask -p 5500:5500 khanrana/flask:"$CIRCLE_SHA1:0:7"
+            docker run -d --name flask -p 5500:5500 khanrana/flask:${CIRCLE_SHA1}
             docker stop flask
             docker rm flask
 
       - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - run: docker push khanrana/flask:"$CIRCLE_SHA1:0:7"
+      - run: docker push khanrana/flask:${CIRCLE_SHA1}
 
 workflows:
   build_and_deploy:
