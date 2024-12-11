@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
-  aws-ecr: circleci/aws-ecr@9.3.7
 
 jobs:
   build_and_test_app:
@@ -16,19 +15,21 @@ jobs:
           command: python app.py
           background: true
         # run and save the tests
-      - run:
-          name: Create directory for tests
-          command: mkdir results
-
       - run: python -m pytest tests/
-
       - persist_to_workspace:
           root: .
           paths:
             - 'tests'
-    
+            
+      - attach_workspace:
+          at: /tmp/workspace
+
       - store_test_results:
-          path: results
+          path: /tmp/workspace/tests
+
+      - store_artifacts:
+          path: /tmp/workspace
+          destination: artifacts
 
   build_docker_image:
     docker: 
@@ -36,16 +37,27 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker_layer_caching: false
+          docker_layer_caching: true
           version: 20.10.24
         
-      - run: docker build -t flask:latest .
+      - run: docker build -t khanrana/flask:latest .
       - run:
           name: Run Flask app in Docker container
           command: | 
-            docker run -d --name flask -p 5500:5500 flask:latest
+            docker run -d --name flask -p 5500:5500 khanrana/flask:latest
             docker stop flask
             docker rm flask
+  
+  push_docker_image:
+    docker:
+      - image: cimg/base:2024.02
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.24
+      - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - run: docker push khanrana/flask:latest
 
 workflows:
   build_deploy:
@@ -54,6 +66,9 @@ workflows:
       - build_docker_image:
           requires:
             - build_and_test_app
+      - push_docker_image:
+          requires:
+            - build_docker_image
 
 
 
