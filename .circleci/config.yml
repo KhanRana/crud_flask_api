@@ -31,7 +31,7 @@ jobs:
           path: /tmp/workspace
           destination: artifacts
 
-  build_docker_image:
+  build_and_push_docker_image:
     docker: 
       - image: cimg/base:2024.02
     steps:
@@ -47,28 +47,18 @@ jobs:
             docker run -d --name flask -p 5500:5500 khanrana/flask:latest
             docker stop flask
             docker rm flask
-  
-  push_docker_image:
-    docker:
-      - image: cimg/base:2024.02
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          version: 20.10.24
+
       - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       - run: docker push khanrana/flask:latest
 
 workflows:
-  build_deploy:
+  build_and_deploy:
     jobs:
       - build_and_test_app
-      - build_docker_image:
+      - build_and_push_docker_image:
           requires:
             - build_and_test_app
-      - push_docker_image:
-          requires:
-            - build_docker_image
+
 
 
 
