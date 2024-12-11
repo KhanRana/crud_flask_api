@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2.0.3
+  aws-ecr: circleci/aws-ecr@9.3.7
 
 jobs:
   build_and_test_app:
@@ -15,22 +16,19 @@ jobs:
           command: python app.py
           background: true
         # run and save the tests
+      - run:
+          name: Create directory for tests
+          command: mkdir tests
+
       - run: python -m pytest tests/
+
       - persist_to_workspace:
           root: .
           paths:
             - 'tests'
-            
-      - attach_workspace:
-          at: /tmp/workspace
-          if-no-files-found: ignore
-
+    
       - store_test_results:
-          path: /tmp/workspace/tests
-
-      - store_artifacts:
-          path: /tmp/workspace
-          destination: artifacts
+          path: tests
 
   build_docker_image:
     docker: 
