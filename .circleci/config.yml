@@ -51,31 +51,24 @@ jobs:
 
       - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       - run: docker push khanrana/flask:${CIRCLE_SHA1}
-    
-  # push the image to aws ecr
-  push_to_ecr:
-    docker: 
-      - image: cimg/base:2024.02
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          version: 20.10.24
-          
+
+    # push the image to aws ecr
       - aws-cli/setup:
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+      
       - run: 
           name: Login to AWS ECR
           command: |
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
             echo "Logged in to AWS ECR"
+
       - run:
           name: Push Docker image to ECR
           command: |
             docker pull khanrana/flask:${CIRCLE_SHA1}
-            docker tag khanrana/flask:${CIRCLE_SHA1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask:${CIRCLE_SHA1}
-            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask:${CIRCLE_SHA1}
+            docker tag khanrana/flask:${CIRCLE_SHA1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/khanrana/flask:${CIRCLE_SHA1}
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/khanrana/flask:${CIRCLE_SHA1}
             echo "Docker image pushed to ECR"
 
 
@@ -96,9 +89,6 @@ workflows:
       - build_and_push_docker_image:
           requires:
             - build_and_test_app
-      - push_to_ecr:
-          requires:
-            - build_and_push_docker_image
 
 
 
