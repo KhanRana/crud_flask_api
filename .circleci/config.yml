@@ -70,24 +70,16 @@ jobs:
       - run:
           name: Configure AWS CLI
           command: |
-            echo "[circleCI]" > ~/.aws/credentials
-            echo "[profile circleCI]" > ~/.aws/config
-            echo "[sso_session circleCI_session]"
-            echo "region = $AWS_REGION" >> ~/.aws/config
+            echo "[default]" > ~/.aws/credentials
             echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
             echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+            echo "[default]" > ~/.aws/config
+            echo "region = $AWS_REGION" >> ~/.aws/config
             echo "output = json" >> ~/.aws/config
-            echo "[sso_session circleCI_session]" >> ~/.aws/config
-            echo "sso_start_url = $SSO_URL" >> ~/.aws/config
-            echo "sso_region = $AWS_REGION" >> ~/.aws/config
-            echo "sso_account_id = $AWS_ACCOUNT_ID" >> ~/.aws/config
-            
 
       - run:
           name: Login to AWS ECR
           command: |
-            export AWS_PROFILE=circleCI
-            aws sso login --profile circleCI
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
             
       - run:
