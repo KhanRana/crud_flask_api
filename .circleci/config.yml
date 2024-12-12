@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
-  python: circleci/python@2.0.3
-  aws-ecr: circleci/aws-ecr@8.1.3
+  python: circleci/python@3.0.0
   aws-cli: circleci/aws-cli@5.1.2
 
 jobs:
@@ -75,13 +74,7 @@ jobs:
             echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
             echo "[default]" > ~/.aws/config
             echo "region = $AWS_REGION" >> ~/.aws/config
-            echo "output = json" >> ~/.aws/config
-            cat ~/.aws/credentials
-            cat ~/.aws/config
-            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-            export AWS_DEFAULT_REGION=$AWS_REGION
-            aws sts get-caller-identity
+            echo "output = json" >> ~/.aws/config  
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - run:
@@ -98,10 +91,6 @@ jobs:
 
 
 
-
-    
-
-
 workflows:
   build_and_deploy:
     jobs:
@@ -116,3 +105,4 @@ workflows:
 
 
                 
+`
