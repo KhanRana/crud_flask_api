@@ -57,6 +57,8 @@ jobs:
     executor: aws-cli/default
     steps:
       - checkout
+      # install aws cli
+      - aws-cli/install
       # create aws config and credentials file
       - run: 
           name: Create AWS config and credentials file
