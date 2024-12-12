@@ -72,9 +72,17 @@ jobs:
           command: |
             echo "[circleCI]" > ~/.aws/credentials
             echo "[profile circleCI]" > ~/.aws/config
+            echo "[sso_session circleCI_session]"
             echo "region = $AWS_REGION" >> ~/.aws/config
             echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
             echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+            echo "output = json" >> ~/.aws/config
+            echo "[sso-session circleCI_session]" >> ~/.aws/config
+            echo "sso_start_url = $SSO_START_URL" >> ~/.aws/config
+            echo "sso_region = $AWS_REGION" >> ~/.aws/config
+            echo "sso_account_id = $SSO_ACCOUNT_ID" >> ~/.aws/config
+            
+
       - run:
           name: Login to AWS ECR
           command: |
