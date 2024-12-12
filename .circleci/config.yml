@@ -55,6 +55,8 @@ jobs:
   # build and push to ecr
   push_image_to_ecr:
     executor: aws-cli/default
+    docker:
+      - image: cimg/base:2024.02
     steps:
       - checkout
       # install aws cli
