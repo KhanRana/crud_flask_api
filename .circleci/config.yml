@@ -79,6 +79,7 @@ jobs:
           name: Login to AWS ECR
           command: |
             export AWS_PROFILE=circleCI
+            aws sso login --profile circleCI
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
             
       - run:
