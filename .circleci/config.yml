@@ -78,9 +78,9 @@ jobs:
             echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
             echo "output = json" >> ~/.aws/config
             echo "[sso-session circleCI_session]" >> ~/.aws/config
-            echo "sso_start_url = $SSO_START_URL" >> ~/.aws/config
+            echo "sso_start_url = $SSO_URL" >> ~/.aws/config
             echo "sso_region = $AWS_REGION" >> ~/.aws/config
-            echo "sso_account_id = $SSO_ACCOUNT_ID" >> ~/.aws/config
+            echo "sso_account_id = $AWS_ACCOUNT_ID" >> ~/.aws/config
             
 
       - run:
