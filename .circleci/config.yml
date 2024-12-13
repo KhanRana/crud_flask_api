@@ -86,7 +86,6 @@ jobs:
       - run:
           name: Build and push Docker image to ECR
           command: |
-            sudo apt-get update && sudo apt-get install -y docker.io
             sudo service start docker
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
             docker build -t khanrana/flask:${CIRCLE_SHA1} .
