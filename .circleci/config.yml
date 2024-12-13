@@ -86,7 +86,8 @@ jobs:
       - run:
           name: Build and push Docker image to ECR
           command: |
-            service docker start
+            sudo apt-get update && sudo apt-get install -y docker.io
+            sudo service start docker
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
             docker build -t khanrana/flask:${CIRCLE_SHA1} .
             docker tag khanrana/flask:${CIRCLE_SHA1} $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/khanrana/flask:latest
@@ -105,7 +106,3 @@ workflows:
       - push_image_to_ecr:
           requires:
             - build_and_push_docker_image
-
-
-
-                
