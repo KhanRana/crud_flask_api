@@ -78,7 +78,7 @@ jobs:
             echo "[default]" > ~/.aws/config
             echo "region = $AWS_REGION" >> ~/.aws/config
             echo "output = json" >> ~/.aws/config  
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+            # aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - run:
           name: Login to AWS ECR
@@ -96,9 +96,6 @@ jobs:
             docker build -t khanrana/flask:${CIRCLE_SHA1} .
             docker tag khanrana/flask:${CIRCLE_SHA1} $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/khanrana/flask:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/khanrana/flask:latest
-
-
-
 
 workflows:
   build_and_deploy:
