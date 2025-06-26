@@ -1,3 +1,17 @@
 .venv
 __pycache__
 .env
+.vscode
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.egg-info
+*.DS_Store
+*.coverage
+*.mypy_cache
+*.pytest_cache
+*.pkl
+flask_api
