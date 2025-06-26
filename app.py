@@ -15,6 +15,7 @@ def resource_not_found(e):
 
 MONGO_URI = app.config.get("MONGO_URI")
 SECRET_KEY = app.config.get("SECRET_KEY")
+PORT= app.config.get("PORT", 5500)
 
 # create mongo client on startup
 try:
@@ -85,6 +86,6 @@ def delete():
 
 
 if __name__ == "__main__":
-    app.run(port=5500, host="0.0.0.0")
+    app.run(port=PORT, host="0.0.0.0")
     app.secret_key = SECRET_KEY
     client.close()
