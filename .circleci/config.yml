@@ -14,8 +14,12 @@ jobs:
           name: App Server
           command: python app.py
           background: true
-        # run and save the tests
-      - run: python -m pytest tests/
+        # run tests and save results
+      - run: 
+          name: Run pytest and save JUnit XML results
+          command: | 
+            mkdir -p tests/results
+            python -m pytest tests/ --junitxml=tests/results/results.xml 
       - persist_to_workspace:
           root: .
           paths:
