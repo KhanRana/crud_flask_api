@@ -32,7 +32,7 @@ jobs:
             fi
       # store test results
       - store_test_results:
-          path: /tests/results
+          path: tests/results
           # store test results
           destination: test-results
 
