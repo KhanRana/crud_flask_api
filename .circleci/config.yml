@@ -20,23 +20,25 @@ jobs:
           command: | 
             mkdir -p tests/results
             python -m pytest tests/ --junitxml=tests/results/results.xml 
-      - run: ls -lR tests # Debug:show the test results
-    
-      - persist_to_workspace:
-          root: .
-          paths:
-            - 'tests'
-            
-      - attach_workspace:
-          at: /tmp/workspace
-      - run: ls -lR /tmp/workspace # Debug: show attached workspace
 
-      # store test resultsp
+      - run:
+          name: Check if the test file exists
+          command: |
+            if [ -f tests/results/results.xml ]; then
+              echo "Test results file exists."
+            else
+              echo "Test results file does not exist."
+              exit 1
+            fi
+      # store test results
       - store_test_results:
-          path: /tmp/workspace/tests/results
+          path: /tests/results
+          # store test results
+          destination: test-results
 
       - store_artifacts:
-          path: /tmp/workspace
+          path: tests/results
+          # store artifacts
           destination: artifacts
 
   build_and_push_docker_image:
