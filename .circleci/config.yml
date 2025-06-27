@@ -31,6 +31,7 @@ jobs:
           at: /tmp/workspace
       - run: ls -lR /tmp/workspace # Debug: show attached workspace
 
+      # store test resultsp
       - store_test_results:
           path: /tmp/workspace/tests/results
 
