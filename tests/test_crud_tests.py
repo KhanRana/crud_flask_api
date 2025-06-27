@@ -1,15 +1,17 @@
 import requests
 import json
-
+import pytest
 host = "http://127.0.0.1:5500"
 
 
 # Test that always pass
+@pytest.mark.order(1)
 def test_always_passes():
     assert True
 
 
-# Check the status
+# Check the status§
+@pytest.mark.order(2)
 def test_status_code():
     # act
     response = requests.get(f"{host}/status")
@@ -18,6 +20,7 @@ def test_status_code():
 
 
 # Test the /create endpoint
+@pytest.mark.order(3)
 def test_create():
     # arrange
     data = {"name": "Wheels"}
@@ -28,6 +31,7 @@ def test_create():
 
 
 # Test the /update endpoint
+@pytest.mark.order(4)
 def test_update():
     # arrange
     data = {"old_name": "Wheels",
@@ -43,6 +47,7 @@ def test_update():
 
 
 # Test the /delete endpoint
+@pytest.mark.order(5)
 def test_delete():
     # arrange
     data = {"name": "Alloys"}
@@ -57,6 +62,7 @@ def test_delete():
 
 
 # Get all products
+@pytest.mark.order(6)
 def test_list_of_products():
     # act
     response = requests.get(f"{host}")
